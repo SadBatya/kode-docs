@@ -1,0 +1,23 @@
+/* KODE Docs — global styles */
+
+:root {
+  --nextra-primary-hue: 212deg;
+  --nextra-primary-saturation: 90%;
+}
+
+/* Rounded code blocks */
+pre {
+  border-radius: 8px !important;
+}
+
+/* Scrollable tables on mobile */
+table {
+  display: block;
+  overflow-x: auto;
+}
+
+/* Compact inline code */
+:not(pre) > code {
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}

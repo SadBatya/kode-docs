@@ -1,0 +1,156 @@
+---
+title: API Guidelines
+description: Стандарты разработки REST и gRPC API
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# API Guidelines
+
+## REST API
+
+### Именование эндпоинтов
+
+```
+# Ресурсы — существительные во множественном числе
+GET    /users              # список пользователей
+GET    /users/{id}         # конкретный пользователь
+POST   /users              # создать пользователя
+PUT    /users/{id}         # полное обновление
+PATCH  /users/{id}         # частичное обновление
+DELETE /users/{id}         # удалить
+
+# Вложенные ресурсы
+GET    /users/{id}/orders  # заказы пользователя
+```
+
+### Версионирование
+
+Версия указывается в URL: `/v1/users`, `/v2/users`.
+
+При изменении контракта — создавайте новую версию, не ломайте старую. Старые версии поддерживаются минимум **6 месяцев** после объявления deprecation.
+
+### Формат ответа
+
+```json
+// Успешный ответ
+{
+  "data": { ... },
+  "meta": {
+    "request_id": "uuid",
+    "timestamp": "2024-01-15T10:30:00Z"
+  }
+}
+
+// Список с пагинацией
+{
+  "data": [ ... ],
+  "pagination": {
+    "page": 1,
+    "per_page": 20,
+    "total": 100,
+    "total_pages": 5
+  }
+}
+```
+
+### Коды ошибок
+
+```json
+// Ошибка
+{
+  "error": {
+    "code": "USER_NOT_FOUND",
+    "message": "User with ID 123 not found",
+    "details": []
+  },
+  "meta": {
+    "request_id": "uuid"
+  }
+}
+```
+
+| HTTP код | Когда использовать |
+|----------|--------------------|
+| `200` | Успешный GET, PATCH, PUT |
+| `201` | Успешный POST (создание) |
+| `204` | Успешный DELETE (нет тела) |
+| `400` | Невалидные данные запроса |
+| `401` | Не авторизован |
+| `403` | Нет прав (авторизован, но запрещено) |
+| `404` | Ресурс не найден |
+| `409` | Конфликт (дубликат, состояние гонки) |
+| `422` | Бизнес-ошибка валидации |
+| `429` | Rate limit превышен |
+| `500` | Внутренняя ошибка сервера |
+
+<Callout type="warning">
+  Никогда не возвращайте `200` для ошибочных ответов. Клиенты ориентируются на HTTP-статус.
+</Callout>
+
+### Пагинация
+
+Используем **offset-based** для простых списков, **cursor-based** для лент (бесконечный скролл):
+
+```
+# Offset
+GET /users?page=2&per_page=20
+
+# Cursor
+GET /posts?cursor=eyJpZCI6MTAwfQ&limit=20
+```
+
+## gRPC
+
+### Структура proto-файлов
+
+```protobuf
+syntax = "proto3";
+package kode.user.v1;
+
+option go_package = "github.com/your-org/proto/user/v1;userv1";
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+```
+
+- Proto-файлы хранятся в репозитории `gitlab.com/your-org/proto`
+- Используйте `buf` для генерации кода и lint
+- Версионирование через пакеты: `kode.user.v1`, `kode.user.v2`
+
+## Аутентификация
+
+<Tabs items={['JWT (внешний)', 'Service-to-Service']}>
+  <Tabs.Tab>
+    - Клиенты передают `Authorization: Bearer <jwt>`
+    - Проверка происходит в API Gateway
+    - Downstream-сервисы получают уже проверенный `X-User-ID` header
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - Используем mTLS между сервисами (настраивается в Istio)
+    - Или gRPC metadata с service account token
+    - Не используйте JWT для межсервисного общения
+  </Tabs.Tab>
+</Tabs>
+
+## Документация API
+
+Все REST API должны иметь OpenAPI 3.0 спецификацию:
+
+```go
+// Swagger-аннотации в Go-коде
+// @Summary Get user by ID
+// @Tags users
+// @Param id path string true "User ID"
+// @Success 200 {object} UserResponse
+// @Router /v1/users/{id} [get]
+```
+
+Документация доступна в dev/staging по пути `/docs/swagger`.

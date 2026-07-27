@@ -1,0 +1,10 @@
+{
+  "index": {
+    "title": "Главная",
+    "display": "hidden"
+  },
+  "getting-started": "Быстрый старт",
+  "engineering": "Разработка",
+  "processes": "Процессы",
+  "runbooks": "Runbooks"
+}

@@ -1,0 +1,63 @@
+---
+title: Backend
+description: Документация backend-отдела
+---
+
+import { Callout } from 'nextra/components'
+
+# Backend
+
+**Стек:** Go · PostgreSQL · Redis · Kafka · gRPC · REST
+
+**Slack:** `#team-backend`  
+**Тимлид:** @backend-lead  
+**Репозиторий:** `gitlab.com/your-org/backend`
+
+## Сервисы
+
+| Сервис | Описание | Репозиторий |
+|--------|----------|-------------|
+| `api-gateway` | Точка входа, авторизация, rate limiting | `backend/api-gateway` |
+| `user-service` | Управление пользователями и профилями | `backend/user-service` |
+| `auth-service` | JWT, OAuth2, сессии | `backend/auth-service` |
+| `notification-service` | Email, push, SMS уведомления | `backend/notification-service` |
+| `payment-service` | Интеграция с платёжными провайдерами | `backend/payment-service` |
+
+## Стандарты
+
+- **Язык:** Go 1.22+
+- **Структура проекта:** [golang-standards/project-layout](https://github.com/golang-standards/project-layout)
+- **Линтер:** `golangci-lint` (конфиг в корне каждого репо)
+- **Тесты:** обязательны для бизнес-логики, coverage ≥ 70%
+- **ORM:** sqlx / pgx напрямую (без GORM)
+- **Логирование:** `zerolog`, структурированный JSON
+- **Метрики:** Prometheus + OpenTelemetry
+
+## Запуск локально
+
+```bash
+cd backend/api-gateway
+cp .env.example .env
+docker compose up -d  # поднимает зависимости (PG, Redis, Kafka)
+go run ./cmd/server
+```
+
+<Callout type="info">
+  Для запуска всех сервисов сразу используйте `docker compose` из корня монорепо: `docker compose up -d`
+</Callout>
+
+## Полезные команды
+
+```bash
+# Запустить тесты
+go test ./... -race -coverprofile=coverage.out
+
+# Линтинг
+golangci-lint run ./...
+
+# Генерация proto
+buf generate
+
+# Миграции БД
+goose -dir ./migrations postgres "$DATABASE_URL" up
+```

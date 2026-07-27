@@ -1,0 +1,41 @@
+---
+title: KODE Docs
+description: Внутренняя документация компании KODE
+---
+
+import { Cards, Card, Callout } from 'nextra/components'
+
+# Добро пожаловать в KODE Docs
+
+Здесь собрана внутренняя документация компании: стандарты кода, архитектурные решения, процессы и операционные инструкции для всех отделов разработки.
+
+<Callout type="info">
+  Нашли ошибку или устаревшую информацию? Нажмите **«Редактировать на GitLab»** внизу любой страницы или создайте issue с лейблом `docs`.
+</Callout>
+
+## Разделы
+
+<Cards>
+  <Card title="Быстрый старт" href="/getting-started" />
+  <Card title="Разработка" href="/engineering" />
+  <Card title="Процессы" href="/processes" />
+  <Card title="Runbooks" href="/runbooks" />
+</Cards>
+
+## Отделы
+
+| Отдел | Стек | Slack-канал |
+|-------|------|-------------|
+| Backend | Go, PostgreSQL, Redis, Kafka | `#team-backend` |
+| Frontend | React, TypeScript, Next.js | `#team-frontend` |
+| Mobile | Swift, Kotlin, React Native | `#team-mobile` |
+| DevOps | Kubernetes, Terraform, GitLab CI | `#team-devops` |
+| QA | Playwright, Pytest | `#team-qa` |
+
+## Полезные ссылки
+
+- **GitLab:** [your-org](https://gitlab.com/your-org) — монорепозиторий и проекты
+- **Jira / Linear:** трекинг задач
+- **Confluence:** бизнес-документация и спеки от Product
+- **Grafana:** дашборды метрик и алертинг
+- **Sentry:** мониторинг ошибок

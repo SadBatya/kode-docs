@@ -1,0 +1,98 @@
+---
+title: Онбординг
+description: Пошаговый план для новых сотрудников
+---
+
+import { Steps, Callout, Tabs } from 'nextra/components'
+
+# Онбординг
+
+<Callout type="warning">
+  Все доступы запрашиваются через IT-тикет. Шаблон тикета — в Confluence: **IT / Онбординг / Шаблон запроса доступов**.
+</Callout>
+
+## День 1
+
+<Steps>
+### Получить доступы
+
+Попросите вашего менеджера создать IT-тикет с ролью и отделом. Вы получите:
+- Корпоративная почта (`@kode.ru`)
+- Slack workspace
+- GitLab (группа `your-org`)
+- Jira / Linear
+
+### Настроить 2FA
+
+Обязательно включите двухфакторную аутентификацию во всех системах. Без 2FA GitLab не даст пуш-доступ.
+
+### Зайти в Slack
+
+Подключитесь к каналам своего отдела и к `#general`, `#dev-general`, `#announcements`.
+
+### Познакомиться с командой
+
+Напишите короткий пост в `#introductions`: кто вы, откуда пришли, чем будете заниматься.
+</Steps>
+
+## Неделя 1
+
+<Steps>
+### Настроить окружение
+
+Следуйте [гайду по настройке инструментов](/getting-started/tooling).
+
+### Клонировать репозитории
+
+```bash
+git clone git@gitlab.com:your-org/backend.git
+git clone git@gitlab.com:your-org/frontend.git
+```
+
+### Запустить проект локально
+
+Инструкции для каждого проекта — в `README.md` в корне репозитория.
+
+### Прочитать документацию отдела
+
+Перейдите в раздел [Разработка](/engineering) и изучите документацию вашего отдела.
+</Steps>
+
+## Первый месяц
+
+- Познакомьтесь с архитектурой системы — схемы в разделе [Backend / Архитектура](/engineering/backend/architecture)
+- Разберитесь с процессом код-ревью: [Code Review](/processes/code-review)
+- Сделайте несколько задач из беклога под наблюдением ментора
+
+## Доступы по ролям
+
+<Tabs items={['Backend', 'Frontend', 'Mobile', 'DevOps']}>
+  <Tabs.Tab>
+    - GitLab: `backend` группа — Developer
+    - Jira: проект `BACK`
+    - Grafana: дашборды Backend
+    - Sentry: проект `backend-prod`
+    - Kubernetes: namespace `backend` (read-only)
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - GitLab: `frontend` группа — Developer
+    - Jira: проект `FRONT`
+    - Vercel / Netlify: доступ к превью
+    - Sentry: проект `frontend-prod`
+    - Figma: команда `Design System`
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - GitLab: `mobile` группа — Developer
+    - Jira: проект `MOB`
+    - App Store Connect / Google Play Console — только просмотр
+    - Firebase: проекты `ios-dev`, `android-dev`
+    - Sentry: проекты `ios-prod`, `android-prod`
+  </Tabs.Tab>
+  <Tabs.Tab>
+    - GitLab: `infra` группа — Maintainer
+    - AWS / GCP Console — отдельный IAM с MFA
+    - Kubernetes: все неймспейсы
+    - Terraform Cloud: workspace для вашего проекта
+    - PagerDuty: on-call ротация
+  </Tabs.Tab>
+</Tabs>
