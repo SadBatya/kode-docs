@@ -1,3 +1,9 @@
+import { NotFoundPage } from 'nextra-theme-docs'
+ 
 export default function NotFound() {
-  return <div>404 - Page Not Found</div>;
+  return (
+    <NotFoundPage content="Submit an issue" labels="broken-link">
+      <h1>The page is not found</h1>
+    </NotFoundPage>
+  )
 }

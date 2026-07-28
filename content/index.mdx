@@ -3,15 +3,17 @@ title: Добро пожаловать \o/
 ---
 import Image from 'next/image'
 import welcomeKoder from '@/public/images/welcome-koder.png'
+import { EXTERNAL_LINKS } from '@/app/shared/constants'
 
+import Link from 'next/link'
 
 import { Callout, Tabs, Steps, Cards, Card } from "nextra/components";
 
-<Image src={welcomeKoder} />
+<Image src={welcomeKoder} className='mt-4 rounded-md overflow-hidden pt-5' />
 
-<Callout type="info">Это важная информация</Callout>
+<Callout type="info">Перед тем как начать изучать техническую документацию, убедись что ты прошел <Link target="_blank" className="underline cursor-pointer" href={EXTERNAL_LINKS.first_onboarding}>Первичный онбординг</Link> и получил доступы к другими платформам (gmail, тг-чаты и прочее)</Callout>
 
-<Tabs items={["React", "Vue"]}>
-  <Tabs.Tab>React код</Tabs.Tab>
-  <Tabs.Tab>Vue код</Tabs.Tab>
-</Tabs>
+## А теперь давай разберемся, что такое KODE и как устроена техническая часть компании KODE.
+
+### Какие дальнейшие шаги тебя ожидают?
+
