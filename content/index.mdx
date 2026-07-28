@@ -1,3 +1,17 @@
 ---
-title: Добро пожаловать
+title: Добро пожаловать \o/
 ---
+import Image from 'next/image'
+import welcomeKoder from '@/public/images/welcome-koder.png'
+
+
+import { Callout, Tabs, Steps, Cards, Card } from "nextra/components";
+
+<Image src={welcomeKoder} />
+
+<Callout type="info">Это важная информация</Callout>
+
+<Tabs items={["React", "Vue"]}>
+  <Tabs.Tab>React код</Tabs.Tab>
+  <Tabs.Tab>Vue код</Tabs.Tab>
+</Tabs>
