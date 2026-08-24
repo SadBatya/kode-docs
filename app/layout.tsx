@@ -9,25 +9,9 @@ export const metadata: Metadata = {
   title: "Kode Docs",
   description: "Техническая документация для новых сотрудников компании KODE",
 };
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-const monthName = months[new Date().getMonth()];
-
 const banner = (
-  <Banner storageKey="some-key">
-    Kode Docs {monthName} {new Date().getFullYear()} 0.1v is released 🎉
+  <Banner storageKey="kode-docs-0.2-beta">
+    Kode Docs v0.2 (бета) — разрабатывается Frontend Team 🎉
   </Banner>
 );
 const navbar = <Navbar logo={<b className="underline">KODE DOCS</b>} />;
@@ -48,6 +32,11 @@ export default async function RootLayout({
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
           footer={footer}
+          editLink={null}
+          feedback={{
+            content: "Есть идея по документации? Напиши в Telegram",
+            link: "https://t.me/skripnik_vladimir_skriv",
+          }}
           // ... Your additional layout options
         >
           {children}
